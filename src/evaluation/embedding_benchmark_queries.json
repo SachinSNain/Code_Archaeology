@@ -1,0 +1,62 @@
+[
+  {
+    "query": "How does FastAPI implement dependency injection for path operations?",
+    "expected_chunk_id": "fastapi/param_functions.py:2283-2369:7"
+  },
+  {
+    "query": "What function declares a security scheme dependency for an endpoint?",
+    "expected_chunk_id": "fastapi/param_functions.py:2372-2460:8"
+  },
+  {
+    "query": "Where is the OpenAPI schema generated for the application?",
+    "expected_chunk_id": "fastapi/openapi/utils.py:523-617:9"
+  },
+  {
+    "query": "How are routes registered onto the FastAPI application object?",
+    "expected_chunk_id": "fastapi/applications.py:1165-1220:10"
+  },
+  {
+    "query": "Where does FastAPI resolve and execute a path operation's dependency tree?",
+    "expected_chunk_id": "fastapi/dependencies/utils.py:598-735:17"
+  },
+  {
+    "query": "How does FastAPI convert a request body into the arguments a function expects?",
+    "expected_chunk_id": "fastapi/dependencies/utils.py:955-1002:25"
+  },
+  {
+    "query": "What function serializes arbitrary Python objects (including Pydantic models) into JSON-compatible data?",
+    "expected_chunk_id": "fastapi/encoders.py:129-364:5"
+  },
+  {
+    "query": "Where does FastAPI build the internal representation of a callable's dependencies?",
+    "expected_chunk_id": "fastapi/dependencies/utils.py:286-359:10"
+  },
+  {
+    "query": "How do you register a WebSocket route on the application?",
+    "expected_chunk_id": "fastapi/applications.py:4639-4646:26"
+  },
+  {
+    "query": "What declares a query parameter with validation constraints for a path operation?",
+    "expected_chunk_id": "fastapi/param_functions.py:357-698:1"
+  },
+  {
+    "query": "What declares a path parameter for a route function?",
+    "expected_chunk_id": "fastapi/param_functions.py:13-354:0"
+  },
+  {
+    "query": "How do you declare an expected HTTP header as a function parameter?",
+    "expected_chunk_id": "fastapi/param_functions.py:701-1015:2"
+  },
+  {
+    "query": "How do you declare an expected cookie value as a function parameter?",
+    "expected_chunk_id": "fastapi/param_functions.py:1018-1320:3"
+  },
+  {
+    "query": "How does FastAPI declare form-encoded request body fields?",
+    "expected_chunk_id": "fastapi/param_functions.py:1653-1965:5"
+  },
+  {
+    "query": "How do you declare an uploaded file as a request parameter?",
+    "expected_chunk_id": "fastapi/param_functions.py:1968-2280:6"
+  }
+]
