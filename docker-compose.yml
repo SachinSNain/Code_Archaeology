@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: archaeology-postgres
+    environment:
+      POSTGRES_USER: archaeology
+      POSTGRES_PASSWORD: archaeology
+      POSTGRES_DB: archaeology
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U archaeology -d archaeology"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  neo4j:
+    image: neo4j:5.26-community
+    container_name: archaeology-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/archaeology_dev_password
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+    ports:
+      - "7474:7474"   # browser UI
+      - "7687:7687"   # bolt
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD-SHELL", "wget -O /dev/null -q http://localhost:7474 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  chroma:
+    image: chromadb/chroma:0.5.23
+    container_name: archaeology-chroma
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/heartbeat')\" || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    container_name: archaeology-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+  neo4j_data:
+  neo4j_logs:
+  chroma_data:
+  redis_data:

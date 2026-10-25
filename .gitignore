@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+data/repos/
+data/chroma/
+*.log
+.DS_Store
+.idea/
+.vscode/
+dist/
+build/
+.deepeval_telemtry.txt
