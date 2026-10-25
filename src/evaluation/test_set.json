@@ -1,0 +1,51 @@
+[
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "Why does fastapi/param_functions.py define Query, Path, Header, etc. as functions whose return value is assigned as a parameter's default, instead of using plain type annotations?",
+    "expected_answer": "PR #226 (\"Add param functions, to override types, to make mypy happy\") explains that FastAPI deliberately 'hacks' the typing system: putting a Query/Path instance as a parameter's default value is not correct from a pure typing standpoint, but FastAPI intercepts these at call time and substitutes the real value, using the classes purely as metadata carriers. The PR was written specifically to stop mypy from flagging this pattern as a type error (referencing issue #219) without forcing every FastAPI user to add '# type: ignore' comments to their route functions.",
+    "target_chunk_id": "fastapi/param_functions.py:357-698:1"
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "Why was auto_error added to the security utilities?",
+    "expected_answer": "PR #134 (\"Add auto_error to security utils\") added an auto_error flag so security dependencies (e.g. OAuth2PasswordBearer) can return None instead of raising an HTTP 403 'Not authenticated' error when no credentials are supplied. This makes authentication optional and allows declaring multiple optional security schemes in a single dependency, letting the dependency itself decide how to handle the case where none of them matched (e.g. supporting login via username/password OR a third-party OAuth2 provider)."
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "Why does FastAPI mount an oauth2-redirect page under the docs URL?",
+    "expected_answer": "PR #198 (\"Add swagger UI oauth2 redirect page\") added this page (ported from swagger-ui's own oauth2-redirect.html) because it is required for the OAuth2 implicit grant flow inside Swagger UI: the redirect page is what allows the UI to capture the access token when the OAuth2 provider redirects back after login."
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "Why was the response serialization logic changed to avoid calling jsonable_encoder twice?",
+    "expected_answer": "PR #217 (\"Enhance the performance and avoid the response repeat encoder\") changed serialize_response so that pydantic validates data directly instead of always pre-encoding it with jsonable_encoder first and then again after validation. The author's stated motivation was a measurable performance improvement, especially noticeable when a response_model is used, since pydantic can already handle serialization itself without a redundant encoding pass.",
+    "target_chunk_id": "fastapi/encoders.py:129-364:5"
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "Why was background task support originally added the way it was, hacking the Response object?",
+    "expected_answer": "PR #77 (\"Background task\"), which references issue #59, introduced background task support as an explicitly rough/experimental attempt: it works by popping a 'background' kwarg off the Response object, which the author acknowledged effectively reserves 'background' as a special key and is 'not really satisfactory.' The author explicitly framed the PR as a basis for discussion rather than a finished design, floating alternatives like integrating background tasks into the dependency system instead."
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "What does the jsonable_encoder function do?",
+    "expected_answer": "jsonable_encoder (fastapi/encoders.py) converts arbitrary Python objects — including Pydantic models, dataclasses, enums, datetimes, and other non-JSON-native types — into data structures composed only of JSON-compatible types (dict, list, str, int, float, bool, None), so the result can be safely passed to json.dumps or returned as an HTTP response body.",
+    "target_chunk_id": "fastapi/encoders.py:129-364:5"
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "What does the Depends function do?",
+    "expected_answer": "Depends (fastapi/param_functions.py) declares a dependency for a path operation function or another dependency: FastAPI calls the given callable, resolving its own parameters/sub-dependencies recursively, and injects the return value into the parameter it's assigned to as a default.",
+    "target_chunk_id": "fastapi/param_functions.py:2283-2369:7"
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "Who touched the security utilities to add optional authentication support?",
+    "expected_answer": "PR #134, \"Add auto_error to security utils,\" added the auto_error option across fastapi/security/api_key.py, http.py, oauth2.py, and open_id_connect_url.py to support optional authentication."
+  },
+  {
+    "repo_id": "tiangolo/fastapi",
+    "question": "How has the OpenAPI/Swagger UI documentation support evolved over time?",
+    "expected_answer": "Early on, FastAPI added static Swagger UI support (PR #112, \"Static swagger\"), then extended it with the oauth2-redirect page (PR #198) to support the OAuth2 implicit grant flow inside the docs UI. This reflects an incremental build-out of interactive API documentation rather than a single up-front design."
+  }
+]
